@@ -1,0 +1,177 @@
+/* Brand tokens — palette from brand PDF */
+:root {
+	--cream: #f8f7f2;
+	--sage: #d4d9c1;
+	--sage-mid: #919b90;
+	--line: #b2b6bb;
+	--ink: #626a6b;
+	--ink-deep: #3d4445;
+	--font-body: "Avenir", "Nunito Sans", system-ui, sans-serif;
+	--font-display: "Avegas Royale", "Cormorant Garamond", Georgia, serif;
+	--space-section: clamp(4rem, 10vw, 7rem);
+	--ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@font-face {
+	font-family: "Avenir";
+	font-style: normal;
+	font-weight: 100 900;
+	font-display: swap;
+	src: local("Avenir Next"), local("Avenir"), local("Avenir Next LT Pro");
+}
+
+@font-face {
+	font-family: "Avegas Royale";
+	font-style: normal;
+	font-weight: 400 700;
+	font-display: swap;
+	src: local("Avegas Royale"), local("Avegas");
+	/* Colocar .woff2 en /public/fonts/ para uso web con licencia */
+}
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+html {
+	scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	html {
+		scroll-behavior: auto;
+	}
+	.animate-in {
+		animation: none !important;
+		opacity: 1 !important;
+		transform: none !important;
+	}
+}
+
+body {
+	margin: 0;
+	font-family: var(--font-body);
+	font-size: 1.0625rem;
+	line-height: 1.65;
+	color: var(--ink);
+	background: var(--cream);
+	-webkit-font-smoothing: antialiased;
+}
+
+img {
+	max-width: 100%;
+	height: auto;
+	display: block;
+}
+
+a {
+	color: var(--ink-deep);
+	text-decoration-thickness: 1px;
+	text-underline-offset: 0.2em;
+	transition: color 0.2s var(--ease-out);
+}
+
+a:hover {
+	color: var(--sage-mid);
+}
+
+:focus-visible {
+	outline: 2px solid var(--sage-mid);
+	outline-offset: 3px;
+}
+
+.container {
+	width: min(1120px, 100% - 2.5rem);
+	margin-inline: auto;
+}
+
+.display {
+	font-family: var(--font-display);
+	font-weight: 400;
+	letter-spacing: 0.02em;
+	color: var(--ink-deep);
+}
+
+.lede {
+	font-size: clamp(1.125rem, 2vw, 1.35rem);
+	line-height: 1.55;
+	max-width: 42ch;
+}
+
+.section-label {
+	font-size: 0.75rem;
+	text-transform: uppercase;
+	letter-spacing: 0.22em;
+	color: var(--sage-mid);
+	margin: 0 0 1rem;
+}
+
+.btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.5rem;
+	padding: 0.85rem 1.6rem;
+	font-family: var(--font-body);
+	font-size: 0.95rem;
+	font-weight: 600;
+	letter-spacing: 0.04em;
+	text-decoration: none;
+	border: none;
+	cursor: pointer;
+	transition:
+		background 0.25s var(--ease-out),
+		color 0.25s var(--ease-out),
+		transform 0.2s var(--ease-out);
+}
+
+.btn--primary {
+	background: var(--ink);
+	color: var(--cream);
+	text-decoration: none;
+}
+
+.btn--primary:hover {
+	background: var(--ink-deep);
+	color: var(--cream);
+	transform: translateY(-1px);
+}
+
+.btn--ghost {
+	background: transparent;
+	color: var(--ink);
+	border: 1px solid var(--line);
+	text-decoration: none;
+}
+
+.btn--ghost:hover {
+	border-color: var(--sage-mid);
+	background: rgba(212, 217, 193, 0.25);
+}
+
+@keyframes fade-up {
+	from {
+		opacity: 0;
+		transform: translateY(18px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+.animate-in {
+	animation: fade-up 0.9s var(--ease-out) both;
+}
+
+.delay-1 {
+	animation-delay: 0.12s;
+}
+.delay-2 {
+	animation-delay: 0.24s;
+}
+.delay-3 {
+	animation-delay: 0.36s;
+}

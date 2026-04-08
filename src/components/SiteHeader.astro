@@ -1,0 +1,119 @@
+---
+import { site } from "../data/site";
+
+const nav = [
+	{ href: "#inicio", label: "Inicio" },
+	{ href: "#filosofia", label: "Filosofía" },
+	{ href: "#instalaciones", label: "Instalaciones" },
+	{ href: "#contacto", label: "Contacto" },
+];
+---
+
+<header class="header" id="top">
+	<div class="header__inner container">
+		<a class="header__brand" href="#inicio" aria-label={`${site.name} — inicio`}>
+			<span class="header__name display">{site.name}</span>
+			<span class="header__sub">odontología integral</span>
+		</a>
+		<nav class="header__nav" aria-label="Principal">
+			<ul>
+				{
+					nav.map((item) => (
+						<li>
+							<a href={item.href}>{item.label}</a>
+						</li>
+					))
+				}
+			</ul>
+		</nav>
+		<a class="btn btn--primary header__cta" href="#contacto">Reservar turno</a>
+	</div>
+</header>
+
+<style>
+	.header {
+		position: sticky;
+		top: 0;
+		z-index: 50;
+		background: color-mix(in srgb, var(--cream) 92%, transparent);
+		backdrop-filter: blur(12px);
+		border-bottom: 1px solid color-mix(in srgb, var(--line) 55%, transparent);
+	}
+
+	.header__inner {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 1.5rem;
+		padding-block: 1rem;
+		flex-wrap: wrap;
+	}
+
+	.header__brand {
+		display: flex;
+		flex-direction: column;
+		gap: 0.15rem;
+		text-decoration: none;
+		color: inherit;
+		min-width: 12rem;
+	}
+
+	.header__brand:hover {
+		color: inherit;
+	}
+
+	.header__name {
+		font-size: clamp(1.35rem, 2.5vw, 1.75rem);
+		line-height: 1.1;
+		letter-spacing: 0.04em;
+	}
+
+	.header__sub {
+		font-size: 0.7rem;
+		text-transform: uppercase;
+		letter-spacing: 0.2em;
+		color: var(--sage-mid);
+	}
+
+	.header__nav ul {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 1.25rem 1.75rem;
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+
+	.header__nav a {
+		font-size: 0.88rem;
+		font-weight: 600;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		text-decoration: none;
+		color: var(--ink);
+	}
+
+	.header__nav a:hover {
+		color: var(--sage-mid);
+	}
+
+	.header__cta {
+		white-space: nowrap;
+	}
+
+	@media (max-width: 860px) {
+		.header__inner {
+			flex-direction: column;
+			align-items: flex-start;
+		}
+
+		.header__nav ul {
+			gap: 0.75rem 1.25rem;
+		}
+
+		.header__cta {
+			width: 100%;
+			text-align: center;
+		}
+	}
+</style>

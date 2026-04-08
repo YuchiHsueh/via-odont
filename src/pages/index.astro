@@ -1,0 +1,350 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+import { site, waUrl } from "../data/site";
+
+const heroImage = "/img/" + encodeURIComponent("foto 2.jpeg");
+
+const gallery = [
+	"foto 1.jpeg",
+	"foto 4.jpeg",
+	"foto 5.jpeg",
+	"foto 6.jpeg",
+	"foto 7.jpeg",
+	"IMG-20260322-WA0091(1).jpg",
+].map((name) => "/img/" + encodeURIComponent(name));
+---
+
+<BaseLayout title={`${site.name} — Odontología integral`}>
+	<SiteHeader />
+	<main>
+		<section class="hero" id="inicio" aria-labelledby="hero-heading">
+			<div class="hero__media">
+				<img
+					class="hero__img"
+					src={heroImage}
+					width="1600"
+					height="1067"
+					alt="Consultorio — ambiente cálido y profesional"
+					loading="eager"
+					fetchpriority="high"
+					decoding="async"
+				/>
+				<div class="hero__veil" aria-hidden="true"></div>
+			</div>
+			<div class="hero__content container">
+				<p class="section-label animate-in">Salud integral · Estética natural</p>
+				<h1 id="hero-heading" class="display hero__title animate-in delay-1">
+					{site.name}
+				</h1>
+				<p class="lede hero__lede animate-in delay-2">
+					{site.tagline}
+				</p>
+				<div class="hero__actions animate-in delay-3">
+					<a class="btn btn--primary" href={waUrl} target="_blank" rel="noopener noreferrer">
+						Escribinos por WhatsApp
+					</a>
+					<a class="btn btn--ghost" href="#filosofia">Conocé nuestra filosofía</a>
+				</div>
+			</div>
+		</section>
+
+		<section class="band band--sage" id="filosofia" aria-labelledby="filosofia-heading">
+			<div class="container filosofia">
+				<h2 id="filosofia-heading" class="display filosofia__title">Filosofía de trabajo</h2>
+				<p class="filosofia__intro">
+					La prevención y la educación guían cada tratamiento. Creemos que una sonrisa armónica es
+					consecuencia de un organismo sano.
+				</p>
+
+				<div class="filosofia__grid">
+					<article class="filosofia__card">
+						<h3 class="filosofia__card-title display">Misión</h3>
+						<p>
+							Nuestra misión es devolver la salud integral a la boca de nuestros pacientes mediante la
+							prevención y la educación. Nos dedicamos a recuperar la función y la seguridad de cada
+							persona, bajo la premisa de que una estética radiante es la consecuencia natural de un
+							organismo sano. Nuestro compromiso es brindar al paciente las herramientas y el
+							conocimiento necesarios para que sea el principal guardián de su propia salud.
+						</p>
+					</article>
+					<article class="filosofia__card">
+						<h3 class="filosofia__card-title display">Visión</h3>
+						<p>
+							Aspiramos a ser referentes en una odontología preservadora y ética, donde la prioridad sea
+							mantener la estructura original y la esencia de quien nos elige. Buscamos evolucionar
+							hacia una práctica que valore la integridad biológica.
+						</p>
+					</article>
+					<article class="filosofia__card filosofia__card--wide">
+						<h3 class="filosofia__card-title display">Valores</h3>
+						<p>
+							Entendemos la odontología como un proceso que respeta la biología y sus tiempos naturales,
+							por lo que la educación constante es nuestra mejor herramienta: guiamos al paciente en
+							cada etapa para que aprenda sobre su tratamiento. Alcanzamos la excelencia mediante la
+							precisión técnica y un compromiso ético que prioriza la salud desde la raíz.
+						</p>
+					</article>
+				</div>
+			</div>
+		</section>
+
+		<section class="instalaciones" id="instalaciones" aria-labelledby="instalaciones-heading">
+			<div class="container">
+				<h2 id="instalaciones-heading" class="display instalaciones__title">Nuestras instalaciones</h2>
+				<p class="instalaciones__lede">
+					Espacios pensados para la calma, la higiene y el acompañamiento en cada visita.
+				</p>
+				<ul class="instalaciones__grid">
+					{
+						gallery.map((src, i) => (
+							<li class="instalaciones__item">
+								<img
+									src={src}
+									alt={`Ambiente del consultorio — imagen ${i + 1}`}
+									width="800"
+									height="600"
+									loading="lazy"
+									decoding="async"
+								/>
+							</li>
+						))
+					}
+				</ul>
+			</div>
+		</section>
+
+		<section class="band band--cta">
+			<div class="container cta">
+				<h2 class="display cta__title">¿Querés coordinar una consulta?</h2>
+				<p class="cta__text">
+					Te respondemos por WhatsApp para agendar tu primera visita o resolver dudas sobre tratamientos.
+				</p>
+				<a class="btn btn--primary cta__btn" href={waUrl} target="_blank" rel="noopener noreferrer">
+					Contactar por WhatsApp
+				</a>
+			</div>
+		</section>
+	</main>
+	<SiteFooter />
+</BaseLayout>
+
+<style>
+	.hero {
+		position: relative;
+		min-height: min(88vh, 900px);
+		display: grid;
+		align-items: end;
+		color: var(--cream);
+	}
+
+	.hero__media {
+		position: absolute;
+		inset: 0;
+		overflow: hidden;
+	}
+
+	.hero__img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		transform: scale(1.02);
+	}
+
+	.hero__veil {
+		position: absolute;
+		inset: 0;
+		background: linear-gradient(
+			105deg,
+			color-mix(in srgb, var(--ink-deep) 78%, transparent) 0%,
+			color-mix(in srgb, var(--ink) 35%, transparent) 42%,
+			color-mix(in srgb, var(--sage-mid) 25%, transparent) 100%
+		);
+	}
+
+	.hero__content {
+		position: relative;
+		padding-block: clamp(3rem, 8vw, 5.5rem);
+		max-width: 640px;
+	}
+
+	.hero .section-label {
+		color: color-mix(in srgb, var(--cream) 75%, var(--sage));
+	}
+
+	.hero__title {
+		font-size: clamp(2.5rem, 6vw, 3.75rem);
+		line-height: 1.05;
+		margin: 0 0 1rem;
+		color: var(--cream);
+		text-shadow: 0 2px 40px color-mix(in srgb, var(--ink-deep) 45%, transparent);
+	}
+
+	.hero__lede {
+		color: color-mix(in srgb, var(--cream) 92%, white);
+		margin: 0 0 2rem;
+	}
+
+	.hero__actions {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 1rem;
+	}
+
+	.hero .btn--primary {
+		background: var(--cream);
+		color: var(--ink-deep);
+	}
+
+	.hero .btn--primary:hover {
+		background: var(--sage);
+		color: var(--ink-deep);
+	}
+
+	.hero .btn--ghost {
+		border-color: color-mix(in srgb, var(--cream) 55%, transparent);
+		color: var(--cream);
+	}
+
+	.hero .btn--ghost:hover {
+		background: color-mix(in srgb, var(--cream) 12%, transparent);
+		border-color: var(--cream);
+		color: var(--cream);
+	}
+
+	.band {
+		padding-block: var(--space-section);
+	}
+
+	.band--sage {
+		background: linear-gradient(
+			180deg,
+			color-mix(in srgb, var(--sage) 35%, var(--cream)) 0%,
+			var(--cream) 100%
+		);
+		border-block: 1px solid color-mix(in srgb, var(--line) 45%, transparent);
+	}
+
+	.filosofia__title {
+		font-size: clamp(2rem, 4vw, 2.75rem);
+		margin: 0 0 1rem;
+	}
+
+	.filosofia__intro {
+		font-size: 1.125rem;
+		max-width: 52ch;
+		margin: 0 0 2.75rem;
+		color: var(--ink);
+	}
+
+	.filosofia__grid {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 2rem 2.5rem;
+	}
+
+	.filosofia__card {
+		padding-top: 1.5rem;
+		border-top: 1px solid color-mix(in srgb, var(--line) 70%, transparent);
+	}
+
+	.filosofia__card--wide {
+		grid-column: 1 / -1;
+		max-width: 72ch;
+	}
+
+	.filosofia__card p {
+		margin: 0;
+		color: var(--ink);
+	}
+
+	.filosofia__card-title {
+		font-size: 1.5rem;
+		margin: 0 0 1rem;
+	}
+
+	@media (max-width: 720px) {
+		.filosofia__grid {
+			grid-template-columns: 1fr;
+		}
+
+		.filosofia__card--wide {
+			grid-column: auto;
+		}
+	}
+
+	.instalaciones {
+		padding-block: var(--space-section);
+	}
+
+	.instalaciones__title {
+		font-size: clamp(1.85rem, 3.5vw, 2.5rem);
+		margin: 0 0 0.75rem;
+	}
+
+	.instalaciones__lede {
+		margin: 0 0 2.5rem;
+		max-width: 42ch;
+	}
+
+	.instalaciones__grid {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: 0.65rem;
+	}
+
+	.instalaciones__item {
+		position: relative;
+		overflow: hidden;
+		aspect-ratio: 4 / 3;
+		background: var(--line);
+	}
+
+	.instalaciones__item img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		transition: transform 0.6s var(--ease-out);
+	}
+
+	.instalaciones__item:hover img {
+		transform: scale(1.03);
+	}
+
+	@media (max-width: 900px) {
+		.instalaciones__grid {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+	}
+
+	@media (max-width: 520px) {
+		.instalaciones__grid {
+			grid-template-columns: 1fr;
+		}
+	}
+
+	.band--cta {
+		background: var(--sage);
+		padding-block: clamp(3rem, 8vw, 4.5rem);
+		text-align: center;
+	}
+
+	.cta__title {
+		font-size: clamp(1.75rem, 3vw, 2.25rem);
+		margin: 0 0 1rem;
+	}
+
+	.cta__text {
+		margin: 0 auto 1.75rem;
+		max-width: 46ch;
+	}
+
+	.cta__btn {
+		background: var(--ink);
+		color: var(--cream);
+	}
+</style>

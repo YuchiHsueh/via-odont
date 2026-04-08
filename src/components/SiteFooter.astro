@@ -1,0 +1,115 @@
+---
+import { site, waUrl } from "../data/site";
+
+const year = new Date().getFullYear();
+---
+
+<footer class="footer" id="contacto">
+	<div class="footer__grid container">
+		<div>
+			<p class="display footer__title">{site.name}</p>
+			<p class="footer__tag">{site.tagline}</p>
+		</div>
+		<div class="footer__block">
+			<h2 class="footer__label">Contacto</h2>
+			<p>
+				<a href={site.phoneHref}>{site.phoneDisplay}</a>
+			</p>
+			<p>
+				<a href={site.emailHref}>{site.email}</a>
+			</p>
+			<p class="footer__address">{site.addressLine}</p>
+		</div>
+		<div class="footer__block">
+			<h2 class="footer__label">Turnos</h2>
+			<p>Escribinos por WhatsApp o llamanos para coordinar tu primera consulta.</p>
+			<a class="btn btn--primary footer__wa" href={waUrl} target="_blank" rel="noopener noreferrer">
+				WhatsApp
+			</a>
+		</div>
+	</div>
+	<p class="footer__copy container">© {year} {site.name}. Todos los derechos reservados.</p>
+</footer>
+
+<style>
+	.footer {
+		background: var(--ink);
+		color: color-mix(in srgb, var(--cream) 88%, white);
+		padding-block: var(--space-section);
+		margin-top: var(--space-section);
+	}
+
+	.footer a {
+		color: var(--cream);
+		text-decoration: none;
+	}
+
+	.footer a:hover {
+		color: var(--sage);
+	}
+
+	.footer__grid {
+		display: grid;
+		grid-template-columns: 1.2fr 1fr 1fr;
+		gap: 2.5rem;
+		align-items: start;
+	}
+
+	.footer__title {
+		font-size: clamp(1.5rem, 3vw, 2rem);
+		margin: 0 0 0.5rem;
+		color: var(--cream);
+	}
+
+	.footer__tag {
+		margin: 0;
+		max-width: 28ch;
+		opacity: 0.9;
+		line-height: 1.5;
+	}
+
+	.footer__label {
+		font-family: var(--font-body);
+		font-size: 0.72rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.2em;
+		margin: 0 0 1rem;
+		color: var(--sage);
+	}
+
+	.footer__block p {
+		margin: 0 0 0.5rem;
+		line-height: 1.55;
+	}
+
+	.footer__address {
+		opacity: 0.85;
+	}
+
+	.footer__wa {
+		margin-top: 1rem;
+		background: var(--sage);
+		color: var(--ink-deep) !important;
+	}
+
+	.footer__wa:hover {
+		background: var(--cream);
+		color: var(--ink-deep) !important;
+	}
+
+	.footer__copy {
+		margin: 3rem 0 0;
+		padding-top: 1.5rem;
+		border-top: 1px solid color-mix(in srgb, var(--cream) 18%, transparent);
+		font-size: 0.82rem;
+		opacity: 0.75;
+		text-align: center;
+	}
+
+	@media (max-width: 900px) {
+		.footer__grid {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>
