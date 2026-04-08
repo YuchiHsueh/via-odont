@@ -4,7 +4,10 @@ import SiteHeader from "../components/SiteHeader.astro";
 import SiteFooter from "../components/SiteFooter.astro";
 import { site, waUrl } from "../data/site";
 
-const heroImage = "/img/" + encodeURIComponent("foto 2.jpeg");
+const basePath = import.meta.env.BASE_URL.replace(/\/?$/, "/");
+const img = (filename: string) => `${basePath}img/${encodeURIComponent(filename)}`;
+
+const heroImage = img("foto 2.jpeg");
 
 const gallery = [
 	"foto 1.jpeg",
@@ -13,7 +16,7 @@ const gallery = [
 	"foto 6.jpeg",
 	"foto 7.jpeg",
 	"IMG-20260322-WA0091(1).jpg",
-].map((name) => "/img/" + encodeURIComponent(name));
+].map(img);
 ---
 
 <BaseLayout title={`${site.name} — Odontología integral`}>
