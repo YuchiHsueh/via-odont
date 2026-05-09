@@ -2,7 +2,16 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import SiteHeader from "../components/SiteHeader.astro";
 import SiteFooter from "../components/SiteFooter.astro";
+import WhatsAppFloat from "../components/WhatsAppFloat.astro";
 import { site, waUrl } from "../data/site";
+import {
+	specialtyCards,
+	professionals,
+	treatmentIntro,
+	treatmentBlocks,
+	esteticaBlock,
+	treatmentPills,
+} from "../data/content";
 
 const basePath = import.meta.env.BASE_URL.replace(/\/?$/, "/");
 const img = (filename: string) => `${basePath}img/${encodeURIComponent(filename)}`;
@@ -17,10 +26,21 @@ const gallery = [
 	"foto 7.jpeg",
 	"IMG-20260322-WA0091(1).jpg",
 ].map(img);
+
+const specialtyCardsResolved = specialtyCards.map((s) => ({
+	...s,
+	imageUrl: img(s.image),
+}));
+
+const professionalsResolved = professionals.map((p) => ({
+	...p,
+	imageUrl: p.photo ? img(p.photo) : null,
+}));
 ---
 
 <BaseLayout title={`${site.name} — Odontología integral`}>
 	<SiteHeader />
+	<WhatsAppFloat />
 	<main>
 		<section class="hero" id="inicio" aria-labelledby="hero-heading">
 			<div class="hero__media">
@@ -93,6 +113,150 @@ const gallery = [
 			</div>
 		</section>
 
+		<section class="especialidades" id="especialidades" aria-labelledby="esp-heading">
+			<div class="container">
+				<p class="section-label">Servicio personalizado</p>
+				<h2 id="esp-heading" class="display especialidades__title">Nuestras especialidades</h2>
+				<p class="especialidades__lede">
+					Periodoncia y odontología general como pilares, y un equipo que abarca todas las áreas que tu
+					boca puede necesitar.
+				</p>
+				<ul class="especialidades__grid">
+					{
+						specialtyCardsResolved.map((s) => (
+							<li class="esp-card">
+								<a class="esp-card__link" href={`#t-${s.slug}`}>
+									<div class="esp-card__media">
+										<img
+											src={s.imageUrl}
+											alt={`Consultorio — ${s.title}`}
+											width="640"
+											height="480"
+											loading="lazy"
+											decoding="async"
+										/>
+									</div>
+									<div class="esp-card__body">
+										<h3 class="esp-card__title display">{s.title}</h3>
+										<p class="esp-card__blurb">{s.blurb}</p>
+										<span class="esp-card__more">Más info</span>
+									</div>
+								</a>
+							</li>
+						))
+					}
+				</ul>
+			</div>
+		</section>
+
+		<section class="band band--team" id="equipo" aria-labelledby="equipo-heading">
+			<div class="container">
+				<p class="section-label">Equipo</p>
+				<h2 id="equipo-heading" class="display equipo__title">Profesionales</h2>
+				<p class="equipo__lede">
+					Especialistas que trabajan de forma coordinada para brindarte una atención integral.
+				</p>
+				<ul class="equipo__grid">
+					{
+						professionalsResolved.map((p) => (
+							<li
+								class:list={[
+									"equipo-card",
+									!p.imageUrl && "equipo-card--placeholder",
+									p.featured && "equipo-card--featured",
+								]}
+							>
+								<article class="equipo-card__inner">
+									<div
+										class:list={[
+											"equipo-card__visual",
+											!p.imageUrl && "equipo-card__visual--placeholder",
+										]}
+									>
+										{
+											p.imageUrl ? (
+												<div class="equipo-card__media">
+													<img
+														class="equipo-card__img"
+														src={p.imageUrl}
+														alt=""
+														width="640"
+														height="800"
+														loading="lazy"
+														decoding="async"
+														style={`--photo-zoom: ${p.photoZoom ?? 1.32}; --photo-focus: ${p.photoFocus ?? "center 22%"}; --photo-origin-y: ${p.photoOriginY ?? "17.5%"}`}
+													/>
+												</div>
+											) : (
+												<div class="equipo-card__ph-inner" aria-hidden="true">
+													{p.initials && (
+														<span class="equipo-card__initials display">{p.initials}</span>
+													)}
+												</div>
+											)
+										}
+										<div
+											class:list={[
+												"equipo-card__scrim",
+												!p.imageUrl && "equipo-card__scrim--placeholder",
+											]}
+											aria-hidden="true"
+										/>
+										<h3 class="equipo-card__nameplate display">
+											<span class="equipo-card__nameplate-text">{p.name}</span>
+										</h3>
+									</div>
+									<div class="equipo-card__body">
+										<ul class="equipo-card__roles equipo-card__roles--fill">
+											{p.roles.map((r) => (
+												<li>
+													<span class="equipo-card__role-pill">{r}</span>
+												</li>
+											))}
+										</ul>
+									</div>
+								</article>
+							</li>
+						))
+					}
+				</ul>
+			</div>
+		</section>
+
+		<section class="tratamientos" id="tratamientos" aria-labelledby="trat-heading">
+			<div class="container tratamientos__inner">
+				<p class="section-label">Tratamientos</p>
+				<h2 id="trat-heading" class="display tratamientos__title">{treatmentIntro.title}</h2>
+				<p class="tratamientos__lead">{treatmentIntro.lead}</p>
+
+				<div class="tratamientos__list">
+					{
+						treatmentBlocks.map((block) => (
+							<article class="trat-block" id={`t-${block.id}`}>
+								<h3 class="trat-block__title display">{block.title}</h3>
+								{block.paragraphs.map((para) => (
+									<p>{para}</p>
+								))}
+							</article>
+						))
+					}
+
+					<article class="trat-block trat-block--highlight" id={`t-${esteticaBlock.id}`}>
+						<h3 class="trat-block__title display">{esteticaBlock.title}</h3>
+						{esteticaBlock.paragraphs.map((para) => (
+							<p>{para}</p>
+						))}
+					</article>
+				</div>
+
+				<div class="tratamientos__pills" aria-label="Especialidades">
+					{treatmentPills.map((label) => (
+						<span class="trat-pill">{label}</span>
+					))}
+				</div>
+			</div>
+		</section>
+
 		<section class="instalaciones" id="instalaciones" aria-labelledby="instalaciones-heading">
 			<div class="container">
 				<h2 id="instalaciones-heading" class="display instalaciones__title">Nuestras instalaciones</h2>
@@ -115,6 +279,27 @@ const gallery = [
 						))
 					}
 				</ul>
+			</div>
+		</section>
+
+		<section class="ubicacion" id="ubicacion" aria-labelledby="ubicacion-heading">
+			<div class="container">
+				<h2 id="ubicacion-heading" class="display ubicacion__title">¿Dónde estamos?</h2>
+				<p class="ubicacion__lede">
+					Encontranos en <strong>VIA Odontología Integral</strong>. Podés ampliar el mapa o abrir la ruta en
+					Google Maps desde el recuadro.
+				</p>
+				<div class="ubicacion__frame">
+					<iframe
+						src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3283.9679399829215!2d-58.45869275838438!3d-34.60497219797555!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bccbb7341fa0d3%3A0x83d93cf2e0ef9f53!2sVIA%20Odontolog%C3%ADa%20Integral!5e0!3m2!1ses!2sar!4v1778289413555!5m2!1ses!2sar"
+						title="Ubicación de VIA Odontología Integral en Google Maps"
+						width="600"
+						height="450"
+						loading="lazy"
+						referrerpolicy="no-referrer-when-downgrade"
+						allowfullscreen=""
+					></iframe>
+				</div>
 			</div>
 		</section>
 
@@ -277,6 +462,399 @@ const gallery = [
 		}
 	}
 
+	.especialidades {
+		padding-block: var(--space-section);
+	}
+
+	.especialidades__title {
+		font-size: clamp(1.85rem, 3.5vw, 2.5rem);
+		margin: 0 0 0.75rem;
+	}
+
+	.especialidades__lede {
+		margin: 0 0 2.5rem;
+		max-width: 48ch;
+		line-height: 1.6;
+	}
+
+	.especialidades__grid {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: 1.25rem;
+	}
+
+	.esp-card__link {
+		display: block;
+		height: 100%;
+		text-decoration: none;
+		color: inherit;
+		background: var(--cream);
+		border: 1px solid color-mix(in srgb, var(--line) 65%, transparent);
+		border-radius: 4px;
+		overflow: hidden;
+		transition:
+			border-color 0.25s var(--ease-out),
+			box-shadow 0.25s var(--ease-out);
+	}
+
+	.esp-card__link:hover {
+		border-color: var(--sage-mid);
+		box-shadow: 0 12px 36px color-mix(in srgb, var(--ink) 8%, transparent);
+		color: inherit;
+	}
+
+	.esp-card__media {
+		aspect-ratio: 4 / 3;
+		background: var(--line);
+		overflow: hidden;
+	}
+
+	.esp-card__media img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		transition: transform 0.5s var(--ease-out);
+	}
+
+	.esp-card__link:hover .esp-card__media img {
+		transform: scale(1.04);
+	}
+
+	.esp-card__body {
+		padding: 1.25rem 1.35rem 1.5rem;
+	}
+
+	.esp-card__title {
+		font-size: 1.35rem;
+		margin: 0 0 0.5rem;
+		line-height: 1.2;
+	}
+
+	.esp-card__blurb {
+		margin: 0 0 1rem;
+		font-size: 0.95rem;
+		line-height: 1.55;
+		color: var(--ink);
+	}
+
+	.esp-card__more {
+		font-size: 0.78rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.14em;
+		color: var(--sage-mid);
+	}
+
+	@media (max-width: 960px) {
+		.especialidades__grid {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+	}
+
+	@media (max-width: 520px) {
+		.especialidades__grid {
+			grid-template-columns: 1fr;
+		}
+	}
+
+	.band--team {
+		background: color-mix(in srgb, var(--sage) 22%, var(--cream));
+		border-block: 1px solid color-mix(in srgb, var(--line) 50%, transparent);
+	}
+
+	.equipo__title {
+		font-size: clamp(1.85rem, 3.5vw, 2.5rem);
+		margin: 0 0 0.75rem;
+	}
+
+	.equipo__lede {
+		margin: 0 0 2.25rem;
+		max-width: 44ch;
+	}
+
+	.equipo__grid {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: clamp(1.25rem, 3vw, 2rem);
+		align-items: stretch;
+	}
+
+	.equipo-card {
+		display: flex;
+		flex-direction: column;
+		min-height: 0;
+		height: 100%;
+	}
+
+	.equipo-card__inner {
+		flex: 1;
+		min-height: 0;
+		display: flex;
+		flex-direction: column;
+		background: var(--cream);
+		border-radius: 14px;
+		overflow: hidden;
+		border: 1px solid color-mix(in srgb, var(--line) 55%, transparent);
+		box-shadow:
+			0 1px 0 color-mix(in srgb, var(--cream) 80%, white) inset,
+			0 18px 40px color-mix(in srgb, var(--ink-deep) 6%, transparent);
+		transition:
+			transform 0.35s var(--ease-out),
+			box-shadow 0.35s var(--ease-out),
+			border-color 0.25s var(--ease-out);
+	}
+
+	.equipo-card__inner:hover {
+		transform: translateY(-4px);
+		border-color: color-mix(in srgb, var(--sage-mid) 45%, var(--line));
+		box-shadow:
+			0 1px 0 color-mix(in srgb, var(--cream) 80%, white) inset,
+			0 22px 48px color-mix(in srgb, var(--ink-deep) 10%, transparent);
+	}
+
+	.equipo-card--featured .equipo-card__inner {
+		border-color: color-mix(in srgb, var(--sage-mid) 55%, var(--line));
+		box-shadow:
+			0 0 0 1px color-mix(in srgb, var(--sage) 40%, transparent),
+			0 1px 0 color-mix(in srgb, var(--cream) 80%, white) inset,
+			0 24px 56px color-mix(in srgb, var(--ink-deep) 12%, transparent);
+	}
+
+	.equipo-card--featured .equipo-card__inner:hover {
+		box-shadow:
+			0 0 0 1px color-mix(in srgb, var(--sage-mid) 35%, transparent),
+			0 1px 0 color-mix(in srgb, var(--cream) 80%, white) inset,
+			0 28px 64px color-mix(in srgb, var(--ink-deep) 14%, transparent);
+	}
+
+	.equipo-card__visual {
+		position: relative;
+		flex: 0 0 auto;
+		width: 100%;
+		aspect-ratio: 3 / 4;
+		overflow: hidden;
+		background: var(--line);
+	}
+
+	.equipo-card__visual--placeholder {
+		background: color-mix(in srgb, var(--sage) 28%, var(--cream));
+	}
+
+	.equipo-card__media {
+		position: absolute;
+		inset: 0;
+		overflow: hidden;
+	}
+
+	.equipo-card__img {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		object-position: var(--photo-focus, center 22%);
+		transform-origin: center var(--photo-origin-y, 17.5%);
+		transform: scale(var(--photo-zoom, 1.32));
+		transition: transform 0.55s var(--ease-out);
+		will-change: transform;
+	}
+
+	.equipo-card__inner:hover .equipo-card__img {
+		transform: scale(calc(var(--photo-zoom, 1.32) * 1.04));
+	}
+
+	.equipo-card__ph-inner {
+		position: absolute;
+		inset: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		background:
+			radial-gradient(ellipse 120% 80% at 20% 20%, color-mix(in srgb, var(--sage) 55%, transparent), transparent 55%),
+			radial-gradient(ellipse 100% 70% at 85% 75%, color-mix(in srgb, var(--sage-mid) 22%, transparent), transparent 50%),
+			linear-gradient(160deg, var(--cream) 0%, color-mix(in srgb, var(--sage) 35%, var(--cream)) 100%);
+	}
+
+	.equipo-card__initials {
+		font-size: clamp(4.5rem, 18vw, 6.5rem);
+		line-height: 1;
+		letter-spacing: 0.06em;
+		color: color-mix(in srgb, var(--ink-deep) 12%, var(--sage-mid));
+		user-select: none;
+	}
+
+	.equipo-card__scrim {
+		position: absolute;
+		inset: 0;
+		background: linear-gradient(
+			to top,
+			color-mix(in srgb, var(--ink-deep) 88%, transparent) 0%,
+			color-mix(in srgb, var(--ink-deep) 35%, transparent) 38%,
+			transparent 62%
+		);
+		pointer-events: none;
+		z-index: 1;
+	}
+
+	.equipo-card__scrim--placeholder {
+		background: linear-gradient(
+			to top,
+			color-mix(in srgb, var(--ink-deep) 72%, transparent) 0%,
+			color-mix(in srgb, var(--ink-deep) 18%, transparent) 45%,
+			transparent 70%
+		);
+	}
+
+	.equipo-card__nameplate {
+		position: absolute;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		z-index: 2;
+		margin: 0;
+		padding: 1.35rem 1.25rem 1.15rem;
+		font-size: clamp(1.05rem, 2.8vw, 1.35rem);
+		font-weight: 500;
+		line-height: 1.2;
+		color: var(--cream);
+		text-shadow: 0 2px 24px color-mix(in srgb, var(--ink-deep) 55%, transparent);
+	}
+
+	.equipo-card--placeholder .equipo-card__nameplate {
+		text-shadow: 0 2px 20px color-mix(in srgb, var(--ink-deep) 40%, transparent);
+	}
+
+	.equipo-card__nameplate-text {
+		display: block;
+		border-left: 3px solid color-mix(in srgb, var(--sage) 85%, transparent);
+		padding-left: 0.75rem;
+	}
+
+	.equipo-card__body {
+		padding: 1.25rem 1.35rem 1.5rem;
+		flex: 1 1 auto;
+		display: flex;
+		flex-direction: column;
+		min-height: 0;
+	}
+
+	.equipo-card__roles--fill {
+		margin-top: auto;
+	}
+
+	.equipo-card__roles {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.45rem 0.5rem;
+		align-content: flex-end;
+	}
+
+	.equipo-card__roles li {
+		margin: 0;
+	}
+
+	.equipo-card__role-pill {
+		display: inline-block;
+		padding: 0.4rem 0.75rem;
+		font-size: 0.78rem;
+		font-weight: 600;
+		letter-spacing: 0.03em;
+		line-height: 1.35;
+		color: var(--ink-deep);
+		background: color-mix(in srgb, var(--sage) 32%, var(--cream));
+		border: 1px solid color-mix(in srgb, var(--line) 70%, transparent);
+		border-radius: 6px;
+	}
+
+	@media (max-width: 640px) {
+		.equipo__grid {
+			grid-template-columns: 1fr;
+		}
+	}
+
+	.tratamientos {
+		padding-block: var(--space-section);
+	}
+
+	.tratamientos__title {
+		font-size: clamp(1.85rem, 3.2vw, 2.35rem);
+		margin: 0 0 1.25rem;
+		max-width: 20ch;
+	}
+
+	.tratamientos__lead {
+		margin: 0 0 2.5rem;
+		font-size: 1.08rem;
+		max-width: 72ch;
+		line-height: 1.65;
+	}
+
+	.tratamientos__list {
+		display: flex;
+		flex-direction: column;
+		gap: 2.25rem;
+		max-width: 72ch;
+	}
+
+	.trat-block {
+		padding-top: 1.75rem;
+		border-top: 1px solid color-mix(in srgb, var(--line) 70%, transparent);
+		scroll-margin-top: 6rem;
+	}
+
+	.trat-block__title {
+		font-size: 1.35rem;
+		margin: 0 0 1rem;
+	}
+
+	.trat-block p {
+		margin: 0 0 0.85rem;
+	}
+
+	.trat-block p:last-child {
+		margin-bottom: 0;
+	}
+
+	.trat-block--highlight {
+		padding: 1.75rem 1.5rem;
+		margin-top: 0.5rem;
+		border: 1px solid color-mix(in srgb, var(--sage-mid) 35%, transparent);
+		border-radius: 4px;
+		background: color-mix(in srgb, var(--sage) 18%, var(--cream));
+	}
+
+	.tratamientos__pills {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem 0.65rem;
+		margin-top: 2.75rem;
+		padding-top: 2rem;
+		border-top: 1px solid var(--line);
+		max-width: 72ch;
+	}
+
+	.trat-pill {
+		display: inline-block;
+		padding: 0.45rem 0.85rem;
+		font-size: 0.82rem;
+		font-weight: 600;
+		letter-spacing: 0.04em;
+		text-transform: uppercase;
+		color: var(--ink-deep);
+		background: color-mix(in srgb, var(--sage) 45%, var(--cream));
+		border: 1px solid color-mix(in srgb, var(--line) 80%, transparent);
+		border-radius: 999px;
+	}
+
 	.instalaciones {
 		padding-block: var(--space-section);
 	}
@@ -328,6 +906,44 @@ const gallery = [
 		.instalaciones__grid {
 			grid-template-columns: 1fr;
 		}
+	}
+
+	.ubicacion {
+		padding-block: var(--space-section);
+		scroll-margin-top: 5.5rem;
+	}
+
+	.ubicacion__title {
+		font-size: clamp(1.85rem, 3.5vw, 2.5rem);
+		margin: 0 0 0.75rem;
+	}
+
+	.ubicacion__lede {
+		margin: 0 0 1.75rem;
+		max-width: 52ch;
+		line-height: 1.6;
+	}
+
+	.ubicacion__frame {
+		position: relative;
+		width: 100%;
+		max-width: 920px;
+		margin-inline: auto;
+		aspect-ratio: 4 / 3;
+		max-height: min(70vh, 520px);
+		border-radius: 14px;
+		overflow: hidden;
+		border: 1px solid color-mix(in srgb, var(--line) 70%, transparent);
+		box-shadow: 0 16px 48px color-mix(in srgb, var(--ink-deep) 8%, transparent);
+		background: var(--line);
+	}
+
+	.ubicacion__frame iframe {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		border: 0;
 	}
 
 	.band--cta {

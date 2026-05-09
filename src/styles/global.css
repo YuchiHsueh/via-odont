@@ -58,6 +58,17 @@ body {
 	color: var(--ink);
 	background: var(--cream);
 	-webkit-font-smoothing: antialiased;
+	padding-bottom: max(5.5rem, env(safe-area-inset-bottom, 0px));
+}
+
+@media (min-width: 901px) {
+	body {
+		padding-bottom: 0;
+	}
+}
+
+body.nav-open {
+	overflow: hidden;
 }
 
 img {
