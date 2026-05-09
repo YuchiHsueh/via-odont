@@ -97,8 +97,10 @@ export const professionals: Professional[] = [
 	},
 	{
 		name: "Dra. Florentina Amado",
-		photo: null,
-		initials: "FA",
+		photo: "Florentina Amado.jpeg",
+		photoZoom: 1.34,
+		photoFocus: "center 22%",
+		photoOriginY: "17.5%",
 		roles: ["Ortodoncia / ortopedia", "Odontopediatría"],
 	},
 	{
