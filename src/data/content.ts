@@ -75,7 +75,7 @@ export type Professional = {
 	featured?: boolean;
 	/**
 	 * Zoom sobre la foto (object-fit cover + scale). Valores ~1.12–1.48:
-	 * más alto = más crop (cara más grande). Ajustar por encuadre original.
+	 * más alto = más crop (cara más grande). 1 = sin zoom extra. Ajustar por encuadre original.
 	 * Con `photoOriginY` en la franja superior (~17–18%) la cara queda anclada
 	 * en la parte alta del marco (orientación “cabeza ≤ ~35% del alto visible” cuando el encuadre lo permite).
 	 */
@@ -90,7 +90,7 @@ export const professionals: Professional[] = [
 	{
 		name: "Dr. Espindola Valentín",
 		photo: "Espindola Valentín.jpg",
-		photoZoom: 1.52,
+		photoZoom: 1.26,
 		photoFocus: "center 20%",
 		photoOriginY: "17.5%",
 		roles: ["Odontología general", "Periodoncia", "Odontopediatría"],
@@ -98,7 +98,7 @@ export const professionals: Professional[] = [
 	{
 		name: "Dra. Florentina Amado",
 		photo: "Florentina Amado.jpeg",
-		photoZoom: 1.34,
+		photoZoom: 1,
 		photoFocus: "center 22%",
 		photoOriginY: "17.5%",
 		roles: ["Ortodoncia / ortopedia", "Odontopediatría"],
@@ -106,7 +106,7 @@ export const professionals: Professional[] = [
 	{
 		name: "Dr. Juan Carlos Pereyra",
 		photo: "Juan Carlos Pereyra.jpg",
-		photoZoom: 1.34,
+		photoZoom: 1.17,
 		photoFocus: "center 22%",
 		photoOriginY: "17.5%",
 		roles: ["Prótesis", "Rehabilitación", "Estética dental"],
@@ -115,7 +115,7 @@ export const professionals: Professional[] = [
 		name: "Dr. Hassan Chang",
 		photo: "el mas fachero.jpeg",
 		featured: true,
-		photoZoom: 1.08,
+		photoZoom: 1,
 		photoFocus: "center 18%",
 		photoOriginY: "17.5%",
 		roles: ["Cirugía bucal", "Implantología oral", "Prótesis", "Rehabilitación"],

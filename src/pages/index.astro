@@ -184,7 +184,7 @@ const professionalsResolved = professionals.map((p) => ({
 														height="800"
 														loading="lazy"
 														decoding="async"
-														style={`--photo-zoom: ${p.photoZoom ?? 1.32}; --photo-focus: ${p.photoFocus ?? "center 22%"}; --photo-origin-y: ${p.photoOriginY ?? "17.5%"}`}
+														style={`--photo-zoom: ${p.photoZoom ?? 1.16}; --photo-focus: ${p.photoFocus ?? "center 22%"}; --photo-origin-y: ${p.photoOriginY ?? "17.5%"}`}
 													/>
 												</div>
 											) : (
@@ -660,13 +660,13 @@ const professionalsResolved = professionals.map((p) => ({
 		object-fit: cover;
 		object-position: var(--photo-focus, center 22%);
 		transform-origin: center var(--photo-origin-y, 17.5%);
-		transform: scale(var(--photo-zoom, 1.32));
+		transform: scale(var(--photo-zoom, 1.16));
 		transition: transform 0.55s var(--ease-out);
 		will-change: transform;
 	}
 
 	.equipo-card__inner:hover .equipo-card__img {
-		transform: scale(calc(var(--photo-zoom, 1.32) * 1.04));
+		transform: scale(calc(var(--photo-zoom, 1.16) * 1.04));
 	}
 
 	.equipo-card__ph-inner {
