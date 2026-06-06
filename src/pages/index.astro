@@ -3,14 +3,13 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import SiteHeader from "../components/SiteHeader.astro";
 import SiteFooter from "../components/SiteFooter.astro";
 import WhatsAppFloat from "../components/WhatsAppFloat.astro";
+import TreatmentAccordion from "../components/TreatmentAccordion.astro";
 import { site, waUrl } from "../data/site";
 import {
 	specialtyCards,
 	professionals,
 	treatmentIntro,
 	treatmentBlocks,
-	esteticaBlock,
-	treatmentPills,
 } from "../data/content";
 
 const basePath = import.meta.env.BASE_URL.replace(/\/?$/, "/");
@@ -35,6 +34,11 @@ const specialtyCardsResolved = specialtyCards.map((s) => ({
 const professionalsResolved = professionals.map((p) => ({
 	...p,
 	imageUrl: p.photo ? img(p.photo) : null,
+}));
+
+const treatmentBlocksResolved = treatmentBlocks.map((block) => ({
+	...block,
+	iconUrl: img(block.icon),
 }));
 ---
 
@@ -65,9 +69,6 @@ const professionalsResolved = professionals.map((p) => ({
 					{site.tagline}
 				</p>
 				<div class="hero__actions animate-in delay-3">
-					<a class="btn btn--primary" href={waUrl} target="_blank" rel="noopener noreferrer">
-						Escribinos por WhatsApp
-					</a>
 					<a class="btn btn--ghost" href="#filosofia">Conocé nuestra filosofía</a>
 				</div>
 			</div>
@@ -100,7 +101,7 @@ const professionalsResolved = professionals.map((p) => ({
 							hacia una práctica que valore la integridad biológica.
 						</p>
 					</article>
-					<article class="filosofia__card filosofia__card--wide">
+					<article class="filosofia__card">
 						<h3 class="filosofia__card-title display">Valores</h3>
 						<p>
 							Entendemos la odontología como un proceso que respeta la biología y sus tiempos naturales,
@@ -224,36 +225,12 @@ const professionalsResolved = professionals.map((p) => ({
 		</section>
 
 		<section class="tratamientos" id="tratamientos" aria-labelledby="trat-heading">
-			<div class="container tratamientos__inner">
+			<div class="container">
 				<p class="section-label">Tratamientos</p>
 				<h2 id="trat-heading" class="display tratamientos__title">{treatmentIntro.title}</h2>
 				<p class="tratamientos__lead">{treatmentIntro.lead}</p>
 
-				<div class="tratamientos__list">
-					{
-						treatmentBlocks.map((block) => (
-							<article class="trat-block" id={`t-${block.id}`}>
-								<h3 class="trat-block__title display">{block.title}</h3>
-								{block.paragraphs.map((para) => (
-									<p>{para}</p>
-								))}
-							</article>
-						))
-					}
-
-					<article class="trat-block trat-block--highlight" id={`t-${esteticaBlock.id}`}>
-						<h3 class="trat-block__title display">{esteticaBlock.title}</h3>
-						{esteticaBlock.paragraphs.map((para) => (
-							<p>{para}</p>
-						))}
-					</article>
-				</div>
-
-				<div class="tratamientos__pills" aria-label="Especialidades">
-					{treatmentPills.map((label) => (
-						<span class="trat-pill">{label}</span>
-					))}
-				</div>
+				<TreatmentAccordion blocks={treatmentBlocksResolved} />
 			</div>
 		</section>
 
@@ -437,11 +414,6 @@ const professionalsResolved = professionals.map((p) => ({
 		border-top: 1px solid color-mix(in srgb, var(--line) 70%, transparent);
 	}
 
-	.filosofia__card--wide {
-		grid-column: 1 / -1;
-		max-width: 72ch;
-	}
-
 	.filosofia__card p {
 		margin: 0;
 		color: var(--ink);
@@ -455,10 +427,6 @@ const professionalsResolved = professionals.map((p) => ({
 	@media (max-width: 720px) {
 		.filosofia__grid {
 			grid-template-columns: 1fr;
-		}
-
-		.filosofia__card--wide {
-			grid-column: auto;
 		}
 	}
 
@@ -787,72 +755,15 @@ const professionalsResolved = professionals.map((p) => ({
 
 	.tratamientos__title {
 		font-size: clamp(1.85rem, 3.2vw, 2.35rem);
-		margin: 0 0 1.25rem;
-		max-width: 20ch;
+		margin: 0 0 0.75rem;
+		max-width: none;
 	}
 
 	.tratamientos__lead {
 		margin: 0 0 2.5rem;
 		font-size: 1.08rem;
-		max-width: 72ch;
+		max-width: none;
 		line-height: 1.65;
-	}
-
-	.tratamientos__list {
-		display: flex;
-		flex-direction: column;
-		gap: 2.25rem;
-		max-width: 72ch;
-	}
-
-	.trat-block {
-		padding-top: 1.75rem;
-		border-top: 1px solid color-mix(in srgb, var(--line) 70%, transparent);
-		scroll-margin-top: 6rem;
-	}
-
-	.trat-block__title {
-		font-size: 1.35rem;
-		margin: 0 0 1rem;
-	}
-
-	.trat-block p {
-		margin: 0 0 0.85rem;
-	}
-
-	.trat-block p:last-child {
-		margin-bottom: 0;
-	}
-
-	.trat-block--highlight {
-		padding: 1.75rem 1.5rem;
-		margin-top: 0.5rem;
-		border: 1px solid color-mix(in srgb, var(--sage-mid) 35%, transparent);
-		border-radius: 4px;
-		background: color-mix(in srgb, var(--sage) 18%, var(--cream));
-	}
-
-	.tratamientos__pills {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 0.5rem 0.65rem;
-		margin-top: 2.75rem;
-		padding-top: 2rem;
-		border-top: 1px solid var(--line);
-		max-width: 72ch;
-	}
-
-	.trat-pill {
-		display: inline-block;
-		padding: 0.45rem 0.85rem;
-		font-size: 0.82rem;
-		font-weight: 600;
-		letter-spacing: 0.04em;
-		text-transform: uppercase;
-		color: var(--ink-deep);
-		background: color-mix(in srgb, var(--sage) 45%, var(--cream));
-		border: 1px solid color-mix(in srgb, var(--line) 80%, transparent);
-		border-radius: 999px;
 	}
 
 	.instalaciones {

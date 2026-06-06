@@ -1,0 +1,194 @@
+---
+import type { TreatmentBlock } from "../data/content";
+
+interface Props {
+	blocks: (TreatmentBlock & { iconUrl: string })[];
+}
+
+const { blocks } = Astro.props;
+---
+
+<div class="tratamientos__list">
+	{
+		blocks.map((block) => (
+			<article
+				class:list={["trat-block", block.highlight && "trat-block--highlight"]}
+				id={`t-${block.id}`}
+			>
+				<details class="trat-block__details">
+					<summary class="trat-block__summary">
+						<span class="trat-block__icon-wrap" aria-hidden="true">
+							<img
+								class="trat-block__icon"
+								src={block.iconUrl}
+								alt=""
+								width="56"
+								height="56"
+								loading="lazy"
+								decoding="async"
+							/>
+						</span>
+						<span class="trat-block__title display">{block.title}</span>
+						<span class="trat-block__chevron" aria-hidden="true" />
+					</summary>
+					<div class="trat-block__body">
+						{block.paragraphs.map((para) => (
+							<p>{para}</p>
+						))}
+					</div>
+				</details>
+			</article>
+		))
+	}
+</div>
+
+<style>
+	.tratamientos__list {
+		display: flex;
+		flex-direction: column;
+		gap: 1.25rem;
+		width: 100%;
+	}
+
+	.trat-block {
+		scroll-margin-top: 6rem;
+		border: 1px solid color-mix(in srgb, var(--line) 65%, transparent);
+		border-radius: 12px;
+		background: var(--cream);
+		overflow: hidden;
+		transition:
+			border-color 0.25s var(--ease-out),
+			box-shadow 0.25s var(--ease-out);
+	}
+
+	.trat-block:hover {
+		border-color: color-mix(in srgb, var(--sage-mid) 45%, var(--line));
+	}
+
+	.trat-block--highlight {
+		border-color: color-mix(in srgb, var(--sage-mid) 40%, var(--line));
+		background: color-mix(in srgb, var(--sage) 14%, var(--cream));
+	}
+
+	.trat-block:has(.trat-block__details[open]) {
+		border-color: color-mix(in srgb, var(--sage-mid) 55%, var(--line));
+		box-shadow: 0 8px 28px color-mix(in srgb, var(--ink-deep) 6%, transparent);
+	}
+
+	.trat-block__summary {
+		display: grid;
+		grid-template-columns: auto 1fr auto;
+		align-items: center;
+		gap: 1rem 1.15rem;
+		padding: 1.25rem 1.35rem;
+		cursor: pointer;
+		list-style: none;
+		user-select: none;
+	}
+
+	.trat-block__summary::-webkit-details-marker {
+		display: none;
+	}
+
+	.trat-block__summary::marker {
+		content: "";
+	}
+
+	.trat-block__summary:focus-visible {
+		outline: 2px solid var(--sage-mid);
+		outline-offset: -2px;
+		border-radius: 12px;
+	}
+
+	.trat-block__icon-wrap {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 3.25rem;
+		height: 3.25rem;
+		flex-shrink: 0;
+		border-radius: 10px;
+		background: color-mix(in srgb, var(--sage) 28%, var(--cream));
+		border: 1px solid color-mix(in srgb, var(--line) 55%, transparent);
+	}
+
+	.trat-block__icon {
+		width: 2.25rem;
+		height: 2.25rem;
+		object-fit: contain;
+	}
+
+	.trat-block__title {
+		font-size: clamp(1.05rem, 2.2vw, 1.25rem);
+		margin: 0;
+		line-height: 1.25;
+		text-align: left;
+	}
+
+	.trat-block__chevron {
+		width: 0.55rem;
+		height: 0.55rem;
+		flex-shrink: 0;
+		border-right: 2px solid var(--sage-mid);
+		border-bottom: 2px solid var(--sage-mid);
+		transform: rotate(45deg) translateY(-2px);
+		transition: transform 0.25s var(--ease-out);
+		margin-inline-end: 0.15rem;
+	}
+
+	.trat-block__details[open] .trat-block__chevron {
+		transform: rotate(-135deg) translateY(-2px);
+	}
+
+	.trat-block__body {
+		padding: 0 1.35rem 1.5rem;
+		border-top: 1px solid color-mix(in srgb, var(--line) 45%, transparent);
+		animation: trat-reveal 0.3s var(--ease-out);
+	}
+
+	.trat-block__body p {
+		margin: 0 0 0.85rem;
+		line-height: 1.65;
+		color: var(--ink);
+	}
+
+	.trat-block__body p:first-child {
+		padding-top: 1.25rem;
+	}
+
+	.trat-block__body p:last-child {
+		margin-bottom: 0;
+	}
+
+	@keyframes trat-reveal {
+		from {
+			opacity: 0;
+			transform: translateY(-6px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	@media (max-width: 520px) {
+		.trat-block__summary,
+		.trat-block__body {
+			padding-inline: 1.25rem;
+		}
+
+		.trat-block__body {
+			padding-bottom: 1.35rem;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.trat-block__body {
+			animation: none;
+		}
+
+		.trat-block__chevron {
+			transition: none;
+		}
+	}
+</style>

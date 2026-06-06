@@ -89,7 +89,7 @@ export type Professional = {
 export const professionals: Professional[] = [
 	{
 		name: "Dr. Espindola Valentín",
-		photo: "Espindola Valentín.jpg",
+		photo: "Espindola Valentín.png",
 		photoZoom: 1.26,
 		photoFocus: "center 20%",
 		photoOriginY: "17.5%",
@@ -97,15 +97,15 @@ export const professionals: Professional[] = [
 	},
 	{
 		name: "Dra. Florentina Amado",
-		photo: "Florentina Amado.jpeg",
+		photo: "Florentina Amado.png",
 		photoZoom: 1,
 		photoFocus: "center 22%",
 		photoOriginY: "17.5%",
 		roles: ["Ortodoncia / ortopedia", "Odontopediatría"],
 	},
 	{
-		name: "Dr. Juan Carlos Pereyra",
-		photo: "Juan Carlos Pereyra.jpg",
+		name: "Dr. Juan Carlos Pereira",
+		photo: "Juan Carlos Pereira.png",
 		photoZoom: 1.17,
 		photoFocus: "center 22%",
 		photoOriginY: "17.5%",
@@ -113,7 +113,7 @@ export const professionals: Professional[] = [
 	},
 	{
 		name: "Dr. Hassan Chang",
-		photo: "el mas fachero.jpeg",
+		photo: "el mas fachero.png",
 		featured: true,
 		photoZoom: 1,
 		photoFocus: "center 18%",
@@ -128,25 +128,20 @@ export const treatmentIntro = {
 		"En VIA Odontología Integral nos preocupamos por la salud y el bienestar de tu sonrisa. Nuestro equipo de profesionales altamente capacitados trabaja con un enfoque integral para brindarte la mejor atención. A continuación, te explicamos en qué consiste cada uno de nuestros tratamientos:",
 };
 
-export const treatmentPills = [
-	"Endodoncia",
-	"Cirugía",
-	"Prótesis",
-	"Ortodoncia / ortopedia",
-	"Odontopediatría",
-	"Implantología",
-];
-
 export type TreatmentBlock = {
 	id: string;
 	title: string;
+	/** SVG en /img, ej. 01_odontologia_general.svg */
+	icon: string;
 	paragraphs: string[];
+	highlight?: boolean;
 };
 
 export const treatmentBlocks: TreatmentBlock[] = [
 	{
 		id: "odontologia-general",
 		title: "1. Odontología general",
+		icon: "01_odontologia_general.svg",
 		paragraphs: [
 			"Es la base de tu salud bucal. Nos enfocamos en la prevención, el diagnóstico y el tratamiento de las afecciones más comunes de los dientes y las encías. Realizamos controles periódicos, limpiezas, restauraciones y te brindamos educación para mantener una boca sana a lo largo del tiempo.",
 		],
@@ -154,6 +149,7 @@ export const treatmentBlocks: TreatmentBlock[] = [
 	{
 		id: "periodoncia",
 		title: "2. Periodoncia",
+		icon: "02_periodoncia.svg",
 		paragraphs: [
 			"Esta especialidad se encarga de la prevención, el diagnóstico y el tratamiento de las enfermedades que afectan a las encías y a los tejidos que sostienen los dientes (como el hueso). Unas encías sanas son el pilar fundamental para conservar los dientes naturales.",
 		],
@@ -161,6 +157,7 @@ export const treatmentBlocks: TreatmentBlock[] = [
 	{
 		id: "odontopediatria",
 		title: "3. Odontopediatría",
+		icon: "03_odontopediatria.svg",
 		paragraphs: [
 			"Brindamos atención especializada para los más pequeños de la familia, desde sus primeros meses de vida hasta la adolescencia. Nuestro objetivo es crear una experiencia positiva y sin temores, enfocándonos en la prevención, el cuidado y el desarrollo adecuado de su dentición.",
 		],
@@ -168,6 +165,7 @@ export const treatmentBlocks: TreatmentBlock[] = [
 	{
 		id: "endodoncia",
 		title: "4. Endodoncia",
+		icon: "04_endodoncia.svg",
 		paragraphs: [
 			'Conocido comúnmente como "tratamiento de conducto". Se realiza cuando la parte más interna del diente (la pulpa o nervio) se ve afectada por una caries profunda o un traumatismo. Permite eliminar el dolor, tratar la infección y salvar tu pieza dental natural.',
 		],
@@ -175,6 +173,7 @@ export const treatmentBlocks: TreatmentBlock[] = [
 	{
 		id: "ortodoncia-ortopedia",
 		title: "5. Ortodoncia y ortopedia",
+		icon: "05_ortodoncia.svg",
 		paragraphs: [
 			"Ortodoncia: Corrige la posición de los dientes para lograr una correcta alineación y mordida, mejorando tanto la estética como la función masticatoria.",
 			"Ortopedia: Guía el crecimiento y desarrollo de los huesos maxilares en niños y adolescentes, creando el espacio necesario para una correcta erupción dental.",
@@ -183,6 +182,7 @@ export const treatmentBlocks: TreatmentBlock[] = [
 	{
 		id: "cirugia-bucal",
 		title: "6. Cirugía bucal",
+		icon: "06_cirugia_bucal.svg",
 		paragraphs: [
 			"Realizamos procedimientos quirúrgicos en la cavidad oral con un enfoque altamente especializado y seguro. Nos destacamos en cirugías regenerativas pre-implantológicas, tanto de tejidos duros (óseos) como blandos (gingivales), cuyo objetivo es preparar el terreno devolviendo el volumen y las condiciones biológicas óptimas para asegurar el éxito y la naturalidad de los tratamientos. Además, abarcamos extracciones complejas y otros procedimientos quirúrgicos menores, brindando siempre el mayor confort al paciente.",
 		],
@@ -190,6 +190,7 @@ export const treatmentBlocks: TreatmentBlock[] = [
 	{
 		id: "implantologia",
 		title: "7. Implantología oral",
+		icon: "07_implantologia.svg",
 		paragraphs: [
 			"Es la solución más avanzada y predecible para reemplazar piezas dentales perdidas. Consiste en la colocación de una fijación de titanio que actúa como raíz artificial, sobre la cual se coloca una prótesis fija o removible para recuperar la función y la estética.",
 		],
@@ -197,16 +198,17 @@ export const treatmentBlocks: TreatmentBlock[] = [
 	{
 		id: "protesis-rehabilitacion",
 		title: "8. Prótesis y rehabilitación",
+		icon: "08_protesis_rehabilitacion.svg",
 		paragraphs: [
 			"Diseñamos soluciones a medida para devolverle a tu boca toda su funcionalidad y armonía visual. Ya sea mediante coronas, puentes o prótesis completas, buscamos restaurar la sonrisa de manera natural, respetando la biología de tus tejidos.",
 		],
 	},
+	{
+		id: "estetica-dental",
+		title: "9. Estética dental y diseño de sonrisa",
+		icon: "09_estetica_dental.svg",
+		paragraphs: [
+			"Nos enfocamos en realzar la belleza natural de tu sonrisa mediante técnicas mínimamente invasivas, logrando resultados armónicos, saludables y duraderos. Analizamos cada detalle para que el resultado estético sea una consecuencia directa de la salud bucal. Nuestros tratamientos incluyen el diseño digital de sonrisa (DSD) para planificar de manera predecible y personalizada la proporción de los dientes, encías y rasgos faciales; el blanqueamiento dental para aclarar el tono de forma segura, eliminando manchas; y la aplicación de carillas o restauraciones estéticas para corregir la forma, el tamaño o el color preservando al máximo el tejido natural.",
+		],
+	},
 ];
-
-export const esteticaBlock = {
-	id: "estetica-dental",
-	title: "Estética dental y diseño de sonrisa",
-	paragraphs: [
-		"Nos enfocamos en realzar la belleza natural de tu sonrisa mediante técnicas mínimamente invasivas, logrando resultados armónicos, saludables y duraderos. Analizamos cada detalle para que el resultado estético sea una consecuencia directa de la salud bucal. Nuestros tratamientos incluyen el diseño digital de sonrisa (DSD) para planificar de manera predecible y personalizada la proporción de los dientes, encías y rasgos faciales; el blanqueamiento dental para aclarar el tono de forma segura, eliminando manchas; y la aplicación de carillas o restauraciones estéticas para corregir la forma, el tamaño o el color preservando al máximo el tejido natural.",
-	],
-};

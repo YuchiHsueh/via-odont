@@ -4,10 +4,12 @@ export const site = {
 	tagline: "Odontología preservadora, ética y centrada en tu biología.",
 	phoneDisplay: "+54 9 11 5782-5664",
 	phoneHref: "tel:+5491157825664",
-	email: "contacto@ejemplo.com",
-	emailHref: "mailto:contacto@ejemplo.com",
+	email: "viaodontologiaintegral@gmail.com",
+	emailHref: "mailto:viaodontologiaintegral@gmail.com",
 	whatsapp: "5491157825664",
-	addressLine: "Buenos Aires, Argentina",
+	addressLine: "Cucha Cucha 1538, C1416 Cdad. Autónoma de Buenos Aires, Argentina",
+	instagram: "https://www.instagram.com/via.odontologia.integral/",
+	instagramHandle: "@via.odontologia.integral",
 };
 
 export const waUrl = `https://wa.me/${site.whatsapp}?text=${encodeURIComponent("Hola, quisiera consultar por un turno.")}`;

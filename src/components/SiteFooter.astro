@@ -9,6 +9,14 @@ const year = new Date().getFullYear();
 		<div>
 			<p class="display footer__title">{site.name}</p>
 			<p class="footer__tag">{site.tagline}</p>
+			<a
+				class="footer__social"
+				href={site.instagram}
+				target="_blank"
+				rel="noopener noreferrer"
+			>
+				Instagram · {site.instagramHandle}
+			</a>
 		</div>
 		<div class="footer__block">
 			<h2 class="footer__label">Contacto</h2>
@@ -62,10 +70,22 @@ const year = new Date().getFullYear();
 	}
 
 	.footer__tag {
-		margin: 0;
+		margin: 0 0 1rem;
 		max-width: 28ch;
 		opacity: 0.9;
 		line-height: 1.5;
+	}
+
+	.footer__social {
+		display: inline-block;
+		font-size: 0.92rem;
+		font-weight: 600;
+		letter-spacing: 0.03em;
+		opacity: 0.9;
+	}
+
+	.footer__social:hover {
+		opacity: 1;
 	}
 
 	.footer__label {
@@ -99,7 +119,7 @@ const year = new Date().getFullYear();
 	}
 
 	.footer__copy {
-		margin: 3rem 0 0;
+		margin: 3rem auto 0;
 		padding-top: 1.5rem;
 		border-top: 1px solid color-mix(in srgb, var(--cream) 18%, transparent);
 		font-size: 0.82rem;
