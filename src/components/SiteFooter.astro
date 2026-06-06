@@ -9,14 +9,24 @@ const year = new Date().getFullYear();
 		<div>
 			<p class="display footer__title">{site.name}</p>
 			<p class="footer__tag">{site.tagline}</p>
-			<a
-				class="footer__social"
-				href={site.instagram}
-				target="_blank"
-				rel="noopener noreferrer"
-			>
-				Instagram · {site.instagramHandle}
-			</a>
+			<div class="footer__socials">
+				<a
+					class="footer__social"
+					href={site.instagram}
+					target="_blank"
+					rel="noopener noreferrer"
+				>
+					Instagram · {site.instagramHandle}
+				</a>
+				<a
+					class="footer__social"
+					href={site.tiktok}
+					target="_blank"
+					rel="noopener noreferrer"
+				>
+					TikTok · {site.tiktokHandle}
+				</a>
+			</div>
 		</div>
 		<div class="footer__block">
 			<h2 class="footer__label">Contacto</h2>
@@ -44,7 +54,6 @@ const year = new Date().getFullYear();
 		background: var(--ink);
 		color: color-mix(in srgb, var(--cream) 88%, white);
 		padding-block: var(--space-section);
-		margin-top: var(--space-section);
 	}
 
 	.footer a {
@@ -74,6 +83,12 @@ const year = new Date().getFullYear();
 		max-width: 28ch;
 		opacity: 0.9;
 		line-height: 1.5;
+	}
+
+	.footer__socials {
+		display: flex;
+		flex-direction: column;
+		gap: 0.45rem;
 	}
 
 	.footer__social {

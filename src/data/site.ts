@@ -10,6 +10,8 @@ export const site = {
 	addressLine: "Cucha Cucha 1538, C1416 Cdad. Autónoma de Buenos Aires, Argentina",
 	instagram: "https://www.instagram.com/via.odontologia.integral/",
 	instagramHandle: "@via.odontologia.integral",
+	tiktok: "https://www.tiktok.com/@via.odontologia.i",
+	tiktokHandle: "@via.odontologia.i",
 };
 
 export const waUrl = `https://wa.me/${site.whatsapp}?text=${encodeURIComponent("Hola, quisiera consultar por un turno.")}`;
