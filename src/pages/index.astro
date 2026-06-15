@@ -4,9 +4,9 @@ import SiteHeader from "../components/SiteHeader.astro";
 import SiteFooter from "../components/SiteFooter.astro";
 import WhatsAppFloat from "../components/WhatsAppFloat.astro";
 import TreatmentAccordion from "../components/TreatmentAccordion.astro";
+import InstalacionesCarousel from "../components/InstalacionesCarousel.astro";
 import { site, waUrl } from "../data/site";
 import {
-	specialtyCards,
 	professionals,
 	treatmentIntro,
 	treatmentBlocks,
@@ -17,19 +17,15 @@ const img = (filename: string) => `${basePath}img/${encodeURIComponent(filename)
 
 const heroImage = img("foto 2.jpeg");
 
-const gallery = [
-	"foto 1.jpeg",
-	"foto 4.jpeg",
-	"foto 5.jpeg",
-	"foto 6.jpeg",
-	"foto 7.jpeg",
-	"IMG-20260322-WA0091(1).jpg",
+const instalacionesSlides = [
+	"consul.jpeg",
+	"consul2.jpeg",
+	"consul4.jpeg",
+	"consul5.jpeg",
+	"consul6.jpeg",
+	"consul7.jpeg",
+	"consul8.jpeg",
 ].map(img);
-
-const specialtyCardsResolved = specialtyCards.map((s) => ({
-	...s,
-	imageUrl: img(s.image),
-}));
 
 const professionalsResolved = professionals.map((p) => ({
 	...p,
@@ -42,7 +38,7 @@ const treatmentBlocksResolved = treatmentBlocks.map((block) => ({
 }));
 ---
 
-<BaseLayout title={`${site.name} — Odontología integral`}>
+<BaseLayout>
 	<SiteHeader />
 	<WhatsAppFloat />
 	<main>
@@ -53,7 +49,7 @@ const treatmentBlocksResolved = treatmentBlocks.map((block) => ({
 					src={heroImage}
 					width="1600"
 					height="1067"
-					alt="Consultorio — ambiente cálido y profesional"
+					alt={`${site.name} — consultorio dental en Cucha Cucha, CABA`}
 					loading="eager"
 					fetchpriority="high"
 					decoding="async"
@@ -68,6 +64,7 @@ const treatmentBlocksResolved = treatmentBlocks.map((block) => ({
 				<p class="lede hero__lede animate-in delay-2">
 					{site.tagline}
 				</p>
+				<p class="hero__location animate-in delay-2">{site.addressLine}</p>
 				<div class="hero__actions animate-in delay-3">
 					<a class="btn btn--ghost" href="#filosofia">Conocé nuestra filosofía</a>
 				</div>
@@ -114,42 +111,6 @@ const treatmentBlocksResolved = treatmentBlocks.map((block) => ({
 			</div>
 		</section>
 
-		<section class="especialidades" id="especialidades" aria-labelledby="esp-heading">
-			<div class="container">
-				<p class="section-label">Servicio personalizado</p>
-				<h2 id="esp-heading" class="display especialidades__title">Nuestras especialidades</h2>
-				<p class="especialidades__lede">
-					Periodoncia y odontología general como pilares, y un equipo que abarca todas las áreas que tu
-					boca puede necesitar.
-				</p>
-				<ul class="especialidades__grid">
-					{
-						specialtyCardsResolved.map((s) => (
-							<li class="esp-card">
-								<a class="esp-card__link" href={`#t-${s.slug}`}>
-									<div class="esp-card__media">
-										<img
-											src={s.imageUrl}
-											alt={`Consultorio — ${s.title}`}
-											width="640"
-											height="480"
-											loading="lazy"
-											decoding="async"
-										/>
-									</div>
-									<div class="esp-card__body">
-										<h3 class="esp-card__title display">{s.title}</h3>
-										<p class="esp-card__blurb">{s.blurb}</p>
-										<span class="esp-card__more">Más info</span>
-									</div>
-								</a>
-							</li>
-						))
-					}
-				</ul>
-			</div>
-		</section>
-
 		<section class="band band--team" id="equipo" aria-labelledby="equipo-heading">
 			<div class="container">
 				<p class="section-label">Equipo</p>
@@ -180,7 +141,7 @@ const treatmentBlocksResolved = treatmentBlocks.map((block) => ({
 													<img
 														class="equipo-card__img"
 														src={p.imageUrl}
-														alt=""
+														alt={`Retrato profesional de ${p.name}`}
 														width="640"
 														height="800"
 														loading="lazy"
@@ -240,22 +201,7 @@ const treatmentBlocksResolved = treatmentBlocks.map((block) => ({
 				<p class="instalaciones__lede">
 					Espacios pensados para la calma, la higiene y el acompañamiento en cada visita.
 				</p>
-				<ul class="instalaciones__grid">
-					{
-						gallery.map((src, i) => (
-							<li class="instalaciones__item">
-								<img
-									src={src}
-									alt={`Ambiente del consultorio — imagen ${i + 1}`}
-									width="800"
-									height="600"
-									loading="lazy"
-									decoding="async"
-								/>
-							</li>
-						))
-					}
-				</ul>
+				<InstalacionesCarousel slides={instalacionesSlides} />
 			</div>
 		</section>
 
@@ -263,8 +209,9 @@ const treatmentBlocksResolved = treatmentBlocks.map((block) => ({
 			<div class="container">
 				<h2 id="ubicacion-heading" class="display ubicacion__title">¿Dónde estamos?</h2>
 				<p class="ubicacion__lede">
-					Encontranos en <strong>VIA Odontología Integral</strong>. Podés ampliar el mapa o abrir la ruta en
-					Google Maps desde el recuadro.
+					Encontranos en <strong>{site.name}</strong>, {site.addressLine}. También podés llamarnos al{" "}
+					<a href={site.phoneHref}>{site.phoneDisplay}</a> o escribirnos por WhatsApp. Podés ampliar el mapa o
+					abrir la ruta en Google Maps desde el recuadro.
 				</p>
 				<div class="ubicacion__frame">
 					<iframe
@@ -348,7 +295,15 @@ const treatmentBlocksResolved = treatmentBlocks.map((block) => ({
 
 	.hero__lede {
 		color: color-mix(in srgb, var(--cream) 92%, white);
+		margin: 0 0 0.75rem;
+	}
+
+	.hero__location {
 		margin: 0 0 2rem;
+		font-size: 0.92rem;
+		line-height: 1.5;
+		color: color-mix(in srgb, var(--cream) 78%, var(--sage));
+		max-width: 36ch;
 	}
 
 	.hero__actions {
@@ -426,104 +381,6 @@ const treatmentBlocksResolved = treatmentBlocks.map((block) => ({
 
 	@media (max-width: 720px) {
 		.filosofia__grid {
-			grid-template-columns: 1fr;
-		}
-	}
-
-	.especialidades {
-		padding-block: var(--space-section);
-	}
-
-	.especialidades__title {
-		font-size: clamp(1.85rem, 3.5vw, 2.5rem);
-		margin: 0 0 0.75rem;
-	}
-
-	.especialidades__lede {
-		margin: 0 0 2.5rem;
-		max-width: 48ch;
-		line-height: 1.6;
-	}
-
-	.especialidades__grid {
-		list-style: none;
-		margin: 0;
-		padding: 0;
-		display: grid;
-		grid-template-columns: repeat(3, minmax(0, 1fr));
-		gap: 1.25rem;
-	}
-
-	.esp-card__link {
-		display: block;
-		height: 100%;
-		text-decoration: none;
-		color: inherit;
-		background: var(--cream);
-		border: 1px solid color-mix(in srgb, var(--line) 65%, transparent);
-		border-radius: 4px;
-		overflow: hidden;
-		transition:
-			border-color 0.25s var(--ease-out),
-			box-shadow 0.25s var(--ease-out);
-	}
-
-	.esp-card__link:hover {
-		border-color: var(--sage-mid);
-		box-shadow: 0 12px 36px color-mix(in srgb, var(--ink) 8%, transparent);
-		color: inherit;
-	}
-
-	.esp-card__media {
-		aspect-ratio: 4 / 3;
-		background: var(--line);
-		overflow: hidden;
-	}
-
-	.esp-card__media img {
-		width: 100%;
-		height: 100%;
-		object-fit: cover;
-		transition: transform 0.5s var(--ease-out);
-	}
-
-	.esp-card__link:hover .esp-card__media img {
-		transform: scale(1.04);
-	}
-
-	.esp-card__body {
-		padding: 1.25rem 1.35rem 1.5rem;
-	}
-
-	.esp-card__title {
-		font-size: 1.35rem;
-		margin: 0 0 0.5rem;
-		line-height: 1.2;
-	}
-
-	.esp-card__blurb {
-		margin: 0 0 1rem;
-		font-size: 0.95rem;
-		line-height: 1.55;
-		color: var(--ink);
-	}
-
-	.esp-card__more {
-		font-size: 0.78rem;
-		font-weight: 700;
-		text-transform: uppercase;
-		letter-spacing: 0.14em;
-		color: var(--sage-mid);
-	}
-
-	@media (max-width: 960px) {
-		.especialidades__grid {
-			grid-template-columns: repeat(2, minmax(0, 1fr));
-		}
-	}
-
-	@media (max-width: 520px) {
-		.especialidades__grid {
 			grid-template-columns: 1fr;
 		}
 	}
@@ -778,45 +635,6 @@ const treatmentBlocksResolved = treatmentBlocks.map((block) => ({
 	.instalaciones__lede {
 		margin: 0 0 2.5rem;
 		max-width: 42ch;
-	}
-
-	.instalaciones__grid {
-		list-style: none;
-		margin: 0;
-		padding: 0;
-		display: grid;
-		grid-template-columns: repeat(3, minmax(0, 1fr));
-		gap: 0.65rem;
-	}
-
-	.instalaciones__item {
-		position: relative;
-		overflow: hidden;
-		aspect-ratio: 4 / 3;
-		background: var(--line);
-	}
-
-	.instalaciones__item img {
-		width: 100%;
-		height: 100%;
-		object-fit: cover;
-		transition: transform 0.6s var(--ease-out);
-	}
-
-	.instalaciones__item:hover img {
-		transform: scale(1.03);
-	}
-
-	@media (max-width: 900px) {
-		.instalaciones__grid {
-			grid-template-columns: repeat(2, minmax(0, 1fr));
-		}
-	}
-
-	@media (max-width: 520px) {
-		.instalaciones__grid {
-			grid-template-columns: 1fr;
-		}
 	}
 
 	.ubicacion {

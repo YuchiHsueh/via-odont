@@ -1,9 +1,11 @@
 ---
 import { site, waUrl } from "../data/site";
 
+const basePath = import.meta.env.BASE_URL.replace(/\/?$/, "/");
+const logoUrl = `${basePath}img/logo_with_text.svg`;
+
 const nav = [
 	{ href: "#filosofia", label: "Filosofía" },
-	{ href: "#especialidades", label: "Especialidades" },
 	{ href: "#equipo", label: "Profesionales" },
 	{ href: "#tratamientos", label: "Tratamientos" },
 	{ href: "#instalaciones", label: "Instalaciones" },
@@ -15,8 +17,14 @@ const nav = [
 <header class="header" id="top">
 	<div class="header__inner container">
 		<a class="header__brand" href="#inicio" aria-label={`${site.name} — inicio`}>
-			<span class="header__name display">{site.name}</span>
-			<span class="header__sub">odontología integral</span>
+			<img
+				class="header__logo"
+				src={logoUrl}
+				alt={site.name}
+				width="752"
+				height="179"
+				decoding="async"
+			/>
 		</a>
 
 		<button
@@ -100,37 +108,30 @@ const nav = [
 	}
 
 	.header__inner {
-		display: grid;
-		grid-template-columns: 1fr auto auto;
+		display: flex;
 		align-items: center;
+		justify-content: space-between;
 		gap: 1rem 1.25rem;
 		padding-block: 1rem;
 	}
 
 	.header__brand {
-		display: flex;
-		flex-direction: column;
-		gap: 0.15rem;
+		display: block;
 		text-decoration: none;
 		color: inherit;
-		justify-self: start;
+		flex-shrink: 0;
+		line-height: 0;
 	}
 
 	.header__brand:hover {
 		color: inherit;
 	}
 
-	.header__name {
-		font-size: clamp(1.2rem, 2.2vw, 1.65rem);
-		line-height: 1.1;
-		letter-spacing: 0.04em;
-	}
-
-	.header__sub {
-		font-size: 0.65rem;
-		text-transform: uppercase;
-		letter-spacing: 0.18em;
-		color: var(--sage-mid);
+	.header__logo {
+		display: block;
+		height: clamp(2rem, 4.5vw, 2.85rem);
+		width: auto;
+		max-width: min(240px, 58vw);
 	}
 
 	.header__burger {
@@ -145,8 +146,7 @@ const nav = [
 		border-radius: 8px;
 		background: var(--cream);
 		cursor: pointer;
-		justify-self: end;
-		grid-column: 2;
+		flex-shrink: 0;
 	}
 
 	.header__burger-line {
@@ -220,28 +220,15 @@ const nav = [
 	}
 
 	@media (min-width: 901px) {
-		.header__inner {
-			grid-template-columns: auto 1fr auto;
-		}
-
-		.header__brand {
-			grid-column: 1;
-		}
-
 		.header__burger {
 			display: none !important;
 		}
 
 		.header__panel {
-			grid-column: 2 / -1;
 			display: flex;
 			align-items: center;
 			justify-content: flex-end;
-			gap: 1.5rem;
-		}
-
-		.header__nav {
-			margin-inline-end: auto;
+			flex-shrink: 0;
 		}
 
 		.header__nav-list {
@@ -254,20 +241,8 @@ const nav = [
 	}
 
 	@media (max-width: 900px) {
-		.header__inner {
-			grid-template-columns: 1fr auto;
-			grid-template-rows: auto auto;
-		}
-
-		.header__brand {
-			grid-column: 1;
-			grid-row: 1;
-		}
-
 		.header__burger {
 			display: flex;
-			grid-column: 2;
-			grid-row: 1;
 		}
 
 		.header__backdrop {
@@ -304,8 +279,6 @@ const nav = [
 			transform: translateX(100%);
 			transition: transform 0.3s var(--ease-out);
 			pointer-events: none;
-			grid-column: 1 / -1;
-			grid-row: 2;
 		}
 
 		.header__panel.is-open {

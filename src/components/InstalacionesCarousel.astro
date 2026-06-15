@@ -1,0 +1,278 @@
+---
+interface Props {
+	slides: string[];
+}
+
+const { slides } = Astro.props;
+const carouselId = "instalaciones-carousel";
+---
+
+<div class="inst-carousel" data-carousel id={carouselId} tabindex="0">
+	<div class="inst-carousel__frame">
+		<button
+			type="button"
+			class="inst-carousel__control inst-carousel__control--prev"
+			data-carousel-prev
+			aria-label="Imagen anterior"
+		>
+			<span aria-hidden="true">‹</span>
+		</button>
+
+		<div class="inst-carousel__viewport" data-carousel-viewport>
+			<ul class="inst-carousel__track" data-carousel-track>
+				{
+					slides.map((src, i) => (
+						<li
+							class="inst-carousel__slide"
+							data-carousel-slide
+							aria-hidden={i !== 0 ? "true" : "false"}
+						>
+							<img
+								src={src}
+								alt={`Instalaciones del consultorio — imagen ${i + 1}`}
+								width="1200"
+								height="900"
+								loading={i === 0 ? "eager" : "lazy"}
+								decoding="async"
+								draggable="false"
+							/>
+						</li>
+					))
+				}
+			</ul>
+		</div>
+
+		<button
+			type="button"
+			class="inst-carousel__control inst-carousel__control--next"
+			data-carousel-next
+			aria-label="Imagen siguiente"
+		>
+			<span aria-hidden="true">›</span>
+		</button>
+	</div>
+
+	<div class="inst-carousel__dots" role="tablist" aria-label="Imágenes del consultorio">
+		{
+			slides.map((_, i) => (
+				<button
+					type="button"
+					class:list={["inst-carousel__dot", i === 0 && "is-active"]}
+					data-carousel-dot={i}
+					role="tab"
+					aria-selected={i === 0 ? "true" : "false"}
+					aria-label={`Imagen ${i + 1} de ${slides.length}`}
+				/>
+			))
+		}
+	</div>
+</div>
+
+<script>
+	(() => {
+		const root = document.querySelector("[data-carousel]");
+		if (!root) return;
+
+		const track = root.querySelector("[data-carousel-track]");
+		const viewport = root.querySelector("[data-carousel-viewport]");
+		const slideEls = [...root.querySelectorAll("[data-carousel-slide]")];
+		const dots = [...root.querySelectorAll("[data-carousel-dot]")];
+		const prevBtn = root.querySelector("[data-carousel-prev]");
+		const nextBtn = root.querySelector("[data-carousel-next]");
+		if (!track || !viewport || !slideEls.length || !prevBtn || !nextBtn) return;
+
+		let index = 0;
+		const total = slideEls.length;
+		const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+		function goTo(nextIndex) {
+			index = (nextIndex + total) % total;
+			track.style.transform = `translateX(-${index * 100}%)`;
+
+			slideEls.forEach((slide, i) => {
+				slide.setAttribute("aria-hidden", i === index ? "false" : "true");
+			});
+
+			dots.forEach((dot, i) => {
+				const active = i === index;
+				dot.classList.toggle("is-active", active);
+				dot.setAttribute("aria-selected", active ? "true" : "false");
+			});
+		}
+
+		prevBtn.addEventListener("click", () => goTo(index - 1));
+		nextBtn.addEventListener("click", () => goTo(index + 1));
+
+		dots.forEach((dot) => {
+			dot.addEventListener("click", () => {
+				const target = Number(dot.getAttribute("data-carousel-dot"));
+				if (!Number.isNaN(target)) goTo(target);
+			});
+		});
+
+		root.addEventListener("keydown", (e) => {
+			if (e.key === "ArrowLeft") goTo(index - 1);
+			if (e.key === "ArrowRight") goTo(index + 1);
+		});
+
+		let touchStartX = 0;
+		let touchDeltaX = 0;
+
+		viewport.addEventListener(
+			"touchstart",
+			(e) => {
+				touchStartX = e.changedTouches[0]?.clientX ?? 0;
+				touchDeltaX = 0;
+			},
+			{ passive: true },
+		);
+
+		viewport.addEventListener(
+			"touchmove",
+			(e) => {
+				const currentX = e.changedTouches[0]?.clientX ?? 0;
+				touchDeltaX = currentX - touchStartX;
+			},
+			{ passive: true },
+		);
+
+		viewport.addEventListener(
+			"touchend",
+			() => {
+				if (Math.abs(touchDeltaX) < 40) return;
+				if (touchDeltaX < 0) goTo(index + 1);
+				else goTo(index - 1);
+			},
+			{ passive: true },
+		);
+
+		if (reducedMotion) {
+			track.style.transition = "none";
+		}
+	})();
+</script>
+
+<style>
+	.inst-carousel {
+		width: 80%;
+		margin-inline: auto;
+		outline: none;
+	}
+
+	.inst-carousel:focus-visible {
+		outline: 2px solid var(--sage-mid);
+		outline-offset: 4px;
+		border-radius: 4px;
+	}
+
+	.inst-carousel__frame {
+		position: relative;
+		width: 100%;
+	}
+
+	.inst-carousel__viewport {
+		width: 100%;
+		overflow: hidden;
+		border-radius: 14px;
+		border: 1px solid color-mix(in srgb, var(--line) 70%, transparent);
+		box-shadow: 0 16px 48px color-mix(in srgb, var(--ink-deep) 8%, transparent);
+		background: var(--line);
+		aspect-ratio: 4 / 3;
+	}
+
+	.inst-carousel__track {
+		display: flex;
+		height: 100%;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		transition: transform 0.45s var(--ease-out);
+	}
+
+	.inst-carousel__slide {
+		flex: 0 0 100%;
+		height: 100%;
+	}
+
+	.inst-carousel__slide img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+
+	.inst-carousel__control {
+		position: absolute;
+		top: 50%;
+		transform: translateY(-50%);
+		z-index: 2;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 2.5rem;
+		height: 2.5rem;
+		padding: 0;
+		border: 1px solid color-mix(in srgb, var(--line) 80%, transparent);
+		border-radius: 999px;
+		background: color-mix(in srgb, var(--cream) 92%, transparent);
+		backdrop-filter: blur(6px);
+		color: var(--ink-deep);
+		font-size: 1.65rem;
+		line-height: 1;
+		cursor: pointer;
+		flex-shrink: 0;
+		transition:
+			background 0.2s var(--ease-out),
+			border-color 0.2s var(--ease-out),
+			color 0.2s var(--ease-out);
+	}
+
+	.inst-carousel__control--prev {
+		left: 0.85rem;
+	}
+
+	.inst-carousel__control--next {
+		right: 0.85rem;
+	}
+
+	.inst-carousel__control:hover {
+		background: var(--sage);
+		border-color: var(--sage-mid);
+	}
+
+	.inst-carousel__control span {
+		display: block;
+		margin-top: -0.12rem;
+	}
+
+	.inst-carousel__dots {
+		display: flex;
+		justify-content: center;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+		margin-top: 1.25rem;
+	}
+
+	.inst-carousel__dot {
+		width: 0.55rem;
+		height: 0.55rem;
+		padding: 0;
+		border: none;
+		border-radius: 999px;
+		background: color-mix(in srgb, var(--line) 85%, var(--ink));
+		cursor: pointer;
+		transition:
+			transform 0.2s var(--ease-out),
+			background 0.2s var(--ease-out);
+	}
+
+	.inst-carousel__dot.is-active {
+		background: var(--sage-mid);
+		transform: scale(1.25);
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.inst-carousel__track {
+			transition: none;
+		}
+	}
+</style>
