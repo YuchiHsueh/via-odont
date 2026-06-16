@@ -31,6 +31,9 @@ jobs:
         run: npm ci
 
       - name: Build
+        env:
+          ASTRO_SITE: https://yuchihsueh.github.io
+          ASTRO_BASE: /via-odont
         run: npm run build
 
       - name: Upload artifact

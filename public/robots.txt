@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://yuchihsueh.github.io/via-odont/sitemap-index.xml
+Sitemap: https://via-odont.bhsueh94.workers.dev/sitemap-index.xml
