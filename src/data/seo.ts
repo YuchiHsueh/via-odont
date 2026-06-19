@@ -8,12 +8,18 @@ export const siteGeo = {
 } as const;
 
 export const seo = {
-	title: `${site.name} — Consultorio dental en CABA`,
-	description: `${site.name}: odontología integral en ${site.addressLine}. Periodoncia, implantes, ortodoncia y más. Coordiná tu turno por WhatsApp.`,
+	title: `VIA Odontología Integral — Clínica odontológica en CABA`,
+	description: `Clínica odontológica en Villa Crespo, CABA. Limpieza dental, blanqueamiento, implantes, ortodoncia, alineadores invisibles, odontopediatría, conducto, carillas, coronas y prótesis. ${site.name} — ${site.addressLine}. Turnos por WhatsApp.`,
 	locale: "es_AR",
 	shareImage: "foto 2.jpeg",
 	logo: "logo_with_text.svg",
 	mapBusinessName: "VIA Odontología Integral",
+	alternateNames: [
+		"VIA Odontología",
+		"Via Odontologia",
+		"VIA Odontología Integral",
+		"Via Odontologia Integral",
+	],
 } as const;
 
 export function getSiteOrigin(siteUrl: URL | undefined, fallbackOrigin: string): URL {
@@ -41,8 +47,8 @@ export function buildDentistJsonLd(origin: URL, baseUrl: string) {
 		"@context": "https://schema.org",
 		"@type": "Dentist",
 		"@id": `${url}#dentist`,
-		name: site.name,
-		legalName: seo.mapBusinessName,
+		name: seo.mapBusinessName,
+		alternateName: seo.alternateNames,
 		description: seo.description,
 		url,
 		telephone: site.phoneHref.replace("tel:", ""),
